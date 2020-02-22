@@ -2,7 +2,9 @@ import React from 'react';
 
 class PiScroller extends React.Component
 {
-    render() {}
+    render() {
+        return (<div/>);
+    }
 }
 
-export PiScroller
+export default PiScroller;
