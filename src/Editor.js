@@ -1,4 +1,5 @@
 import React from 'react';
+import PiScroller from './Scroller'
 import './Editor.css';
 
 class PiEditor extends React.Component
