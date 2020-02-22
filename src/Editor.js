@@ -1,4 +1,5 @@
 import React from 'react';
+import './Editor.css';
 
 class PiEditor extends React.Component
 {
@@ -6,13 +7,16 @@ class PiEditor extends React.Component
     {
         super(props);
         this.state = {inputText: '', arrow: 0};
-        console.log('created a pieditor');
     }
 
     render()
     {
-        const {width, height} = this.props;
-        const style           = {width: width, height: height};
+        const style = {
+            color: 'blue',
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'blue',
+        };
 
         return (<div style = {style} className = 'pi-editor'>
                 <input value                        = {
@@ -21,7 +25,6 @@ class PiEditor extends React.Component
 
     update_view(txt)
     {
-        console.log('wow we got some text: ')
         console.log(txt.target.value);
         this.setState({inputText: txt.target.value});
     }
