@@ -29,9 +29,19 @@ class PiEditor extends React.Component {
             this.setState({inputText: this.state.inputText + additions});
         }
         */
-    this.setState({
-      inputText: this.state.inputText + this.getTextFromCode(s)
-    });
+    switch (parseInt(s) % 128) {
+      case 0: {
+        // null
+      }
+      case 1: {
+        // start of heading (??)
+      }
+      default: {
+        this.setState({
+          inputText: this.state.inputText + this.getTextFromCode(s)
+        });
+      }
+    }
   }
 
   render() {
