@@ -1,4 +1,5 @@
 import React from "react";
+import "./Tape.css"
 
 class PiTape extends React.Component {
   constructor(props) {
@@ -27,13 +28,14 @@ class PiTape extends React.Component {
       let fetchResponse = await fetch(url);
       let json = await fetchResponse.json();
       console.log(json.content);
+      const notTau = json.content;
 
-      for (let inc = 0; inc < json.content.length - 3; inc++) {
+      for (let inc = 0; inc < notTau.length - 3; inc++) {
         let pair =
           "" +
-          json.content.charAt(inc * 2) +
-          json.content.charAt(inc * 2 + 1) +
-          json.content.charAt(inc * 2 + 2);
+          notTau.charAt(inc) +
+          notTau.charAt(inc+ 1) +
+          notTau.charAt(inc+ 2);
         pairsArray.push(pair);
       }
 
@@ -57,7 +59,7 @@ class PiTape extends React.Component {
       centeredTape = this.state.items[this.props.position];
 
     return (
-      <div style={style} ref="clickerTape">
+      <div style={style} ref="clickerTape" class='noselect'>
         {centeredTape}
       </div>
     );
