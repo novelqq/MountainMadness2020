@@ -1,3 +1,13 @@
+## Preface
+
+In the future, the keyboard has become an antiquated piece of technology that any cutting-edge devoloper worth his marbles would never place his fingers on. The trajectory is clear; all of us at some point have been writing Python code when a sudden thought befalls you: You could be so much more productive if you could just select the characters you wish to type using an Apple Scroll Wheel! Better yet, what if the scroll wheel simply generated digits of Pi that correspond to ASCII values? The application of such a powerful interface is clear. You probably are shaking your head wondering how in the world you never campe up with such a solution before. The future is now!
+
+## How it works
+
+1. Fetches Pi digits using A-Pi
+2. User uses the innovative scroll wheel to select a triplet 
+3. Run it in Python!
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
