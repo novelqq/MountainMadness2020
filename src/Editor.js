@@ -1,6 +1,7 @@
 import React from "react";
 import PiScroller from "./Scroller";
 import "./Editor.css";
+import StockTicker from "./StockTicker";
 
 class PiEditor extends React.Component {
   constructor(props) {
@@ -29,6 +30,7 @@ class PiEditor extends React.Component {
           />
         </div>
         <PiScroller />
+        <StockTicker />
       </div>
     );
   }
