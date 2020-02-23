@@ -8,6 +8,8 @@ In the future, the keyboard has become an antiquated piece of technology that an
 2. User uses the innovative scroll wheel to select a triplet 
 3. Run it in Python!
 
+![Working demo](https://github.com/novelqq/mm2020rm/raw/master/usergif.gif)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
