@@ -29,16 +29,26 @@ class PiEditor extends React.Component {
             this.setState({inputText: this.state.inputText + additions});
         }
         */
-    this.setState({
-      inputText: this.state.inputText + this.getTextFromCode(s)
-    });
+    switch (parseInt(s) % 128) {
+      case 0: {
+        // null
+      }
+      case 1: {
+        // start of heading (??)
+      }
+      default: {
+        this.setState({
+          inputText: this.state.inputText + this.getTextFromCode(s)
+        });
+      }
+    }
   }
 
   render() {
     const style = {
       color: "black",
       width: "100%",
-      height: "100%",
+      height: "60%",
       backgroundColor: "white",
       fontFamily: '"Courier New", Courier, monospace',
       fontSize: 40,
@@ -56,6 +66,9 @@ class PiEditor extends React.Component {
           inputReadyHandler={this.childUpdateHandler.bind(this)}
           ref="inputScroller"
         />
+        /*
+        <PithonRunner />
+        */
       </div>
     );
   }
