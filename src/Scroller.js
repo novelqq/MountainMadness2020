@@ -20,7 +20,7 @@ class PiScroller extends React.Component {
     lineWidth: 40,
     canvasWidth: 200,
     canvasHeight: 200,
-    scrollToShift: 10,
+    scrollToShift: 20,
     shiftWidth: 20
   };
 
@@ -134,6 +134,7 @@ class PiScroller extends React.Component {
         <PiTape
           position={this.state.tickerOffset}
           yOffset={this.props.yOffset}
+          xOffset={this.props.xOffset}
         />
         <canvas
           style={style}

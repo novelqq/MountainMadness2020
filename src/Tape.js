@@ -46,16 +46,19 @@ class PiTape extends React.Component {
     const style = {
       position: "absolute",
       bottom: this.props.yOffset - 19,
-      left: this.props.position,
+      left: this.props.xOffset - 40,
       width: "100%",
       fontFamily: '"Courier New", Courier, monospace',
       fontSize: 40,
         color: 'black'
     };
+    let centeredTape = '';
+    if (this.state.items.length > this.props.position) 
+      centeredTape = this.state.items[this.props.position];
 
     return (
       <div style={style} ref="clickerTape">
-        something random
+        {centeredTape}
       </div>
     );
   }
