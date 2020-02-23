@@ -11,25 +11,51 @@ class PiEditor extends React.Component {
     };
   }
 
+  getTextFromCode(s) {
+    var val = parseInt(s);
+    return String.fromCharCode(val % 128);
+  }
+
+  childUpdateHandler(s) {
+    /*
+        if (this.refs.inputScroller.state.codeAdditions.length > 0)
+        {
+            let additions = '';
+            for (const s in this.refs.inputScroller.state.codeAdditions)
+            {
+                additions += this.getTextFromCode(s);
+            }
+            this.refs.inputScroller.setState({codeAdditions : []});
+            this.setState({inputText: this.state.inputText + additions});
+        }
+        */
+    this.setState({
+      inputText: this.state.inputText + this.getTextFromCode(s)
+    });
+  }
+
   render() {
     const style = {
       color: "black",
       width: "100%",
       height: "100%",
-      backgroundColor: "white"
+      backgroundColor: "white",
+      fontFamily: '"Courier New", Courier, monospace',
+      fontSize: 40,
+      padding: 0,
+      margin: 0,
+      type: "text"
     };
 
     return (
       <div className="pi-editor" style={style}>
         <div style={style} className="edit-view">
-          <input
-            readOnly
-            style={style}
-            value={this.state.inputText}
-            onChange={txt => this.update_view(txt)}
-          />
+          <input readOnly style={style} value={this.state.inputText} />
         </div>
-        <PiScroller />
+        <PiScroller
+          inputReadyHandler={this.childUpdateHandler.bind(this)}
+          ref="inputScroller"
+        />
       </div>
     );
   }

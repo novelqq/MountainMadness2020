@@ -51,8 +51,8 @@ class PiTape extends React.Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log(nextProps.position);
-    console.log(prevState.items.length);
+    //console.log(nextProps.position);
+    //console.log(prevState.items.length);
     if (prevState.items.length > nextProps.position) {
       let prev = "";
       for (
