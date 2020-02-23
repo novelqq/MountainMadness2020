@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
     "electron": "^8.0.1",
     "react-scripts": "0.8.5"
   },
@@ -12,6 +13,7 @@
     "@testing-library/user-event": "^7.2.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-native-apple-scroll-wheel": "0.0.2",
     "react-scripts": "3.4.0"
   },
   "main": "src/electron-start.js",
@@ -25,7 +27,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-    "browserslist": {
+  "browserslist": {
     "production": [
       ">0.2%",
       "not dead",
@@ -37,5 +39,4 @@
       "last 1 safari version"
     ]
   }
-
 }
