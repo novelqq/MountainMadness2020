@@ -1,4 +1,5 @@
 import React from "react";
+import PiTape from "./Tape";
 
 class PiScroller extends React.Component {
   constructor(props) {
@@ -7,7 +8,8 @@ class PiScroller extends React.Component {
       scrollValue: 0,
       mouseAngle: 0,
       mouseDown: false,
-      prevAngle: 0
+      prevAngle: 0,
+      tickerOffset: 0
     };
   }
 
@@ -17,7 +19,9 @@ class PiScroller extends React.Component {
     xOffset: 100,
     lineWidth: 40,
     canvasWidth: 200,
-    canvasHeight: 200
+    canvasHeight: 200,
+    scrollToShift: 10,
+    shiftWidth: 20
   };
 
   componentDidMount() {
@@ -78,7 +82,7 @@ class PiScroller extends React.Component {
 
   getAngle(e) {
     const vals = this.calculateRelativeValues(e);
-    return (Math.atan2(vals.dy, vals.dx) + Math.PI)*180/Math.PI;
+    return ((Math.atan2(vals.dy, vals.dx) + Math.PI) * 180) / Math.PI;
   }
 
   updateOnMouse(e) {
@@ -87,7 +91,24 @@ class PiScroller extends React.Component {
 
     this.setState({ mouseAngle: this.getAngle(e), prevAngle: newAngle });
     if (Math.abs(newAngle - prevAngle) > 2) return;
-    this.state.scrollValue -= prevAngle - newAngle;
+    const newScrollValue = this.state.scrollValue - (prevAngle - newAngle);
+    this.setState({ scrollValue: newScrollValue });
+    // scrollValue was updated! Calculate if we move the thing
+    if (Math.abs(this.state.scrollValue) >= this.props.scrollToShift) {
+      // now we actually shift the ticker tape
+      var sign = 1;
+      if (this.state.scrollValue < 0) {
+        sign = -1;
+      }
+      this.state.tickerOffset += sign;
+      this.state.scrollValue =
+        this.state.scrollValue % this.props.scrollToShift;
+    }
+    if (this.state.tickerOffset < 0) {
+      this.setState({ tickerOffset: 0 });
+
+      if (this.state.scrollValue < 0) this.setState({ scrollValue: 0 });
+    }
   }
 
   mouseUpHandler(e) {
@@ -106,17 +127,14 @@ class PiScroller extends React.Component {
 
   render() {
     const style = { position: "absolute", bottom: 0, left: 0 };
-    const tickerStyle = {
-      position: "absolute",
-      bottom: 0,
-      left: this.state.scrollValue,
-      width: "100%",
-        fontFamily: '"Courier New", Courier, monospace'
-    };
+    console.log("rendering..." + this.state.tickerOffset.toString());
 
     return (
       <div>
-        <div style={tickerStyle} ref="clickerTape"></div>
+        <PiTape
+          position={this.state.tickerOffset}
+          yOffset={this.props.yOffset}
+        />
         <canvas
           style={style}
           ref="clickerCanvas"
