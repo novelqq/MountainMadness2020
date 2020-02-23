@@ -1,21 +1,22 @@
 import React from "react";
-import "./Tape.css"
+import "./Tape.css";
 
 class PiTape extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       currentPos: 0,
-      items: []
+      items: [],
+      currentTriplet: ""
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getPiDigits();
   }
 
-  componentWillUnmount() {
-    clearInterval(this.activeInterval);
+  getCurrentTriplet() {
+    return this.state.currentTriplet;
   }
 
   async getPiDigits() {
@@ -34,8 +35,8 @@ class PiTape extends React.Component {
         let pair =
           "" +
           notTau.charAt(inc) +
-          notTau.charAt(inc+ 1) +
-          notTau.charAt(inc+ 2);
+          notTau.charAt(inc + 1) +
+          notTau.charAt(inc + 2);
         pairsArray.push(pair);
       }
 
@@ -44,6 +45,16 @@ class PiTape extends React.Component {
       console.log(err);
     }
   }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    console.log(nextProps.position);
+    console.log(prevState.items.length);
+    if (prevState.items.length > nextProps.position) {
+      return { currentTriplet: prevState.items[nextProps.position] };
+    }
+    return null;
+  }
+
   render() {
     const style = {
       position: "absolute",
@@ -52,15 +63,18 @@ class PiTape extends React.Component {
       width: "100%",
       fontFamily: '"Courier New", Courier, monospace',
       fontSize: 40,
-        color: 'black'
+      color: "black"
     };
-    let centeredTape = '';
-    if (this.state.items.length > this.props.position) 
+    /*
+    let centeredTape = "";
+    if (this.state.items.length > this.props.position) {
       centeredTape = this.state.items[this.props.position];
+      this.setState({ currentTriplet: centeredTape });
+    }*/
 
     return (
-      <div style={style} ref="clickerTape" class='noselect'>
-        {centeredTape}
+      <div style={style} ref="clickerTape" className="noselect">
+        {this.state.currentTriplet}
       </div>
     );
   }
