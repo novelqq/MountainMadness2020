@@ -9,7 +9,8 @@ class PiScroller extends React.Component {
       mouseAngle: 0,
       mouseDown: false,
       prevAngle: 0,
-      tickerOffset: 0
+      tickerOffset: 0,
+      canvasLastX: 0
     };
   }
 
@@ -27,9 +28,9 @@ class PiScroller extends React.Component {
   componentDidMount() {
     const clickerCanvas = this.refs.clickerCanvas;
     const context = clickerCanvas.getContext("2d");
+    const rect = this.refs.clickerCanvas.getBoundingClientRect();
 
-    const getX = offset =>
-      offset + this.props.radius + this.props.lineWidth / 2;
+    this.setState({canvasLastX: rect.left});
 
     context.beginPath();
     context.lineWidth = this.props.lineWidth;
@@ -66,6 +67,7 @@ class PiScroller extends React.Component {
     const dx = x - this.props.xOffset;
     const dy = y - this.props.yOffset;
     const dist = Math.abs(Math.sqrt(dx * dx + dy * dy));
+    this.setState({canvasLastX: rect.left});
     return { x: x, y: y, dx: dx, dy: dy, dist: dist };
   }
 
@@ -115,7 +117,6 @@ class PiScroller extends React.Component {
     if (this.state.mouseDown) {
       this.setState({ mouseDown: false });
       this.updateOnMouse(e);
-      console.log("angle: " + this.state.mouseAngle.toString());
     }
   }
 
@@ -126,8 +127,7 @@ class PiScroller extends React.Component {
   }
 
   render() {
-    const style = { position: "absolute", bottom: 0, left: 0 };
-    console.log("rendering..." + this.state.tickerOffset.toString());
+    const style = { position: "absolute", bottom: 0, paddingLeft: 0, paddingRight: 0, marginLeft: -100, left: '50%'};
 
     return (
       <div>
@@ -135,6 +135,7 @@ class PiScroller extends React.Component {
           position={this.state.tickerOffset}
           yOffset={this.props.yOffset}
           xOffset={this.props.xOffset}
+          canvasX={this.state.canvasLastX}
         />
         <canvas
           style={style}

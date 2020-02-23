@@ -7,7 +7,10 @@ class PiTape extends React.Component {
     this.state = {
       currentPos: 0,
       items: [],
-      currentTriplet: ""
+      currentTriplet: "",
+      previousTriplets: "",
+      futureTriplets: "",
+      digits: ""
     };
   }
 
@@ -40,6 +43,7 @@ class PiTape extends React.Component {
         pairsArray.push(pair);
       }
 
+      this.setState({ digits: notTau });
       this.setState({ items: pairsArray });
     } catch (err) {
       console.log(err);
@@ -50,17 +54,58 @@ class PiTape extends React.Component {
     console.log(nextProps.position);
     console.log(prevState.items.length);
     if (prevState.items.length > nextProps.position) {
-      return { currentTriplet: prevState.items[nextProps.position] };
+      let prev = "";
+      for (
+        let inc = 0;
+        inc < nextProps.position && inc < prevState.digits.length;
+        inc++
+      ) {
+        prev += "" + prevState.digits[inc];
+      }
+      let next = "";
+      for (
+        let inc = nextProps.position + 3;
+        inc < nextProps.position + 75 && inc < prevState.digits.length;
+        inc++
+      ) {
+        next += "" + prevState.digits[inc];
+      }
+      return {
+        currentTriplet: prevState.items[nextProps.position],
+        previousTriplets: prev,
+        futureTriplets: next
+      };
     }
     return null;
   }
 
   render() {
-    const style = {
+    // I had this looking nicer but Javascript references got weird
+    // So I just did it the fast and not so nice way
+    const leftStyle = {
       position: "absolute",
-      bottom: this.props.yOffset - 19,
-      left: this.props.xOffset - 40,
-      width: "100%",
+      bottom: this.props.yOffset - 20,
+      right: this.props.canvasX + 2 * this.props.xOffset,
+      width: "auto",
+      fontFamily: '"Courier New", Courier, monospace',
+      fontSize: 40,
+      color: "black",
+      overflow: "hidden"
+    };
+    const middleStyle = {
+      position: "absolute",
+      bottom: this.props.yOffset - 20,
+      left: this.props.canvasX + this.props.xOffset - 36,
+      width: "auto",
+      fontFamily: '"Courier New", Courier, monospace',
+      fontSize: 40,
+      color: "black"
+    };
+    const rightStyle = {
+      position: "absolute",
+      bottom: this.props.yOffset - 20,
+      left: this.props.canvasX + 2 * this.props.xOffset,
+      width: "auto",
       fontFamily: '"Courier New", Courier, monospace',
       fontSize: 40,
       color: "black"
@@ -73,8 +118,10 @@ class PiTape extends React.Component {
     }*/
 
     return (
-      <div style={style} ref="clickerTape" className="noselect">
-        {this.state.currentTriplet}
+      <div className="noselect">
+        <div style={leftStyle}>{this.state.previousTriplets}</div>
+        <div style={middleStyle}>{this.state.currentTriplet}</div>
+        <div style={rightStyle}>{this.state.futureTriplets}</div>
       </div>
     );
   }
