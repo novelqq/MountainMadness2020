@@ -7,7 +7,7 @@ class PiEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputText: "print('hi')",
+      inputText: "print('Test message!')\nprint('A second test message!')",
       arrow: 0
     };
   }
@@ -54,7 +54,19 @@ class PiEditor extends React.Component {
     const style = {
       color: "black",
       width: "100%",
-      height: "60%",
+      height: "80%",
+      backgroundColor: "white",
+      fontFamily: '"Courier New", Courier, monospace',
+      fontSize: 40,
+      padding: 0,
+      margin: 0,
+      type: "text",
+      overflowX: "hidden"
+    };
+    const goodStyle = {
+      color: "black",
+      width: "100%",
+      height: "100%",
       backgroundColor: "white",
       fontFamily: '"Courier New", Courier, monospace',
       fontSize: 40,
@@ -67,7 +79,7 @@ class PiEditor extends React.Component {
     return (
       <div className="pi-editor" style={style}>
         <div style={style} className="edit-view">
-          <input readOnly style={style} value={this.state.inputText} />
+          <textarea readOnly style={goodStyle} value={this.state.inputText} />
         </div>
         <PiScroller
           inputReadyHandler={this.childUpdateHandler.bind(this)}
@@ -76,13 +88,6 @@ class PiEditor extends React.Component {
         <PithonRunner ref="pithonRunner" />
       </div>
     );
-  }
-
-  update_view(txt) {
-    console.log(txt.target.value);
-    this.setState({
-      inputText: txt.target.value
-    });
   }
 }
 

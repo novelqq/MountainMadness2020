@@ -36,7 +36,7 @@ class PithonRunner extends React.Component {
 
   execute(someCode) {
     PythonShell.runString(
-      'print("hi")',
+      someCode,
       null,
       function(err, results) {
         if (err) throw err;
@@ -47,8 +47,20 @@ class PithonRunner extends React.Component {
   }
 
   render() {
+    const goodStyle = {
+      color: "black",
+      width: "100%",
+      height: "100%",
+      backgroundColor: "white",
+      fontFamily: '"Courier New", Courier, monospace',
+      fontSize: 20,
+      padding: 0,
+      margin: 0,
+      type: "text",
+      overflowX: "hidden"
+    };
     let val = this.state.pythonOutput.join("\r\n");
-    return <div style={{ overflow: "hidden", width: "100%" }}>{val}</div>;
+    return <div style={goodStyle}><textarea style={goodStyle} value={val} readOnly/></div>;
   }
 }
 
