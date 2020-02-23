@@ -1,12 +1,13 @@
 import React from "react";
 import PiScroller from "./Scroller";
 import "./Editor.css";
+import PithonRunner from "./PythonRunner"
 
 class PiEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputText: "",
+      inputText: "print('hi')",
       arrow: 0
     };
   }
@@ -29,6 +30,7 @@ class PiEditor extends React.Component {
             this.setState({inputText: this.state.inputText + additions});
         }
         */
+      console.log("Command parsed as " + (parseInt(s) % 128).toString());
     switch (parseInt(s) % 128) {
       case 0: {
         // null
@@ -36,6 +38,10 @@ class PiEditor extends React.Component {
       case 1: {
         // start of heading (??)
       }
+        case 13: {
+// execute some PYTHON WOOOO
+           this.refs.pithonRunner.execute(this.state.inputText);
+        }
       default: {
         this.setState({
           inputText: this.state.inputText + this.getTextFromCode(s)
@@ -54,7 +60,8 @@ class PiEditor extends React.Component {
       fontSize: 40,
       padding: 0,
       margin: 0,
-      type: "text"
+      type: "text",
+      overflowX: "hidden"
     };
 
     return (
@@ -66,9 +73,7 @@ class PiEditor extends React.Component {
           inputReadyHandler={this.childUpdateHandler.bind(this)}
           ref="inputScroller"
         />
-        /*
-        <PithonRunner />
-        */
+        <PithonRunner ref="pithonRunner" />
       </div>
     );
   }

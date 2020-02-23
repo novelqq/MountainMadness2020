@@ -118,7 +118,7 @@ class PiTape extends React.Component {
     }*/
 
     return (
-      <div className="noselect">
+      <div className="noselect" style={{overflowX: "hidden", width: "100%"}}>
         <div style={leftStyle}>{this.state.previousTriplets}</div>
         <div style={middleStyle}>{this.state.currentTriplet}</div>
         <div style={rightStyle}>{this.state.futureTriplets}</div>
