@@ -48,7 +48,7 @@ class PiEditor extends React.Component {
     const style = {
       color: "black",
       width: "100%",
-      height: "100%",
+      height: "60%",
       backgroundColor: "white",
       fontFamily: '"Courier New", Courier, monospace',
       fontSize: 40,
@@ -66,6 +66,9 @@ class PiEditor extends React.Component {
           inputReadyHandler={this.childUpdateHandler.bind(this)}
           ref="inputScroller"
         />
+        /*
+        <PithonRunner />
+        */
       </div>
     );
   }
