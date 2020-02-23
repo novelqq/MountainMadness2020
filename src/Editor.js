@@ -23,6 +23,7 @@ class PiEditor extends React.Component {
       <div className="pi-editor" style={style}>
         <div style={style} className="edit-view">
           <input
+            readOnly
             style={style}
             value={this.state.inputText}
             onChange={txt => this.update_view(txt)}

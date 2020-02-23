@@ -1,32 +1,130 @@
 import React from "react";
-/*import AppleScrollWheel from "react-native-apple-scroll-wheel";*/
 
 class PiScroller extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { scrollValue: 0 };
+    this.state = {
+      scrollValue: 0,
+      mouseAngle: 0,
+      mouseDown: false,
+      prevAngle: 0
+    };
+  }
+
+  static defaultProps = {
+    radius: 64,
+    yOffset: 100,
+    xOffset: 100,
+    lineWidth: 40,
+    canvasWidth: 200,
+    canvasHeight: 200
+  };
+
+  componentDidMount() {
+    const clickerCanvas = this.refs.clickerCanvas;
+    const context = clickerCanvas.getContext("2d");
+
+    const getX = offset =>
+      offset + this.props.radius + this.props.lineWidth / 2;
+
+    context.beginPath();
+    context.lineWidth = this.props.lineWidth;
+    context.strokeStyle = "rgb(192,192,192)";
+    context.arc(
+      this.props.xOffset,
+      this.props.yOffset,
+      this.props.radius,
+      0,
+      2 * Math.PI
+    );
+    context.stroke();
+
+    context.beginPath();
+    context.lineWidth = this.props.lineWidth;
+    context.strokeStyle = "rgb(145,145,145)";
+    context.arc(
+      this.props.xOffset,
+      this.props.yOffset,
+      this.props.radius,
+      0,
+      2 * Math.PI
+    );
+    context.stroke();
+
+    window.addEventListener("mouseup", this.mouseUpHandler.bind(this));
+    window.addEventListener("mousemove", this.canvasMoveHandler.bind(this));
+  }
+
+  calculateRelativeValues(e) {
+    const rect = this.refs.clickerCanvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const dx = x - this.props.xOffset;
+    const dy = y - this.props.yOffset;
+    const dist = Math.abs(Math.sqrt(dx * dx + dy * dy));
+    return { x: x, y: y, dx: dx, dy: dy, dist: dist };
+  }
+
+  canvasClickHandler(e) {
+    const dist = this.calculateRelativeValues(e).dist;
+
+    if (
+      dist <= this.props.radius + this.props.lineWidth / 2 &&
+      dist >= this.props.radius - this.props.lineWidth / 2
+    ) {
+      this.setState({ mouseDown: true, prevAngle: this.getAngle(e) });
+    }
+  }
+
+  getAngle(e) {
+    const vals = this.calculateRelativeValues(e);
+    return (Math.atan2(vals.dy, vals.dx) + Math.PI)*180/Math.PI;
+  }
+
+  updateOnMouse(e) {
+    const newAngle = this.getAngle(e);
+    const prevAngle = this.state.prevAngle;
+
+    this.setState({ mouseAngle: this.getAngle(e), prevAngle: newAngle });
+    if (Math.abs(newAngle - prevAngle) > 2) return;
+    this.state.scrollValue -= prevAngle - newAngle;
+  }
+
+  mouseUpHandler(e) {
+    if (this.state.mouseDown) {
+      this.setState({ mouseDown: false });
+      this.updateOnMouse(e);
+      console.log("angle: " + this.state.mouseAngle.toString());
+    }
+  }
+
+  canvasMoveHandler(e) {
+    if (this.state.mouseDown) {
+      this.updateOnMouse(e);
+    }
   }
 
   render() {
-    /*return (<AppleScrollWheel
-      value={this.state.scrollValue}
-      minValue={-720}
-      increment={1}
-      maxValue={720}
-      onChangeValue={scrollValue => this.setState({ scrollValue })}
-    />);*/
+    const style = { position: "absolute", bottom: 0, left: 0 };
+    const tickerStyle = {
+      position: "absolute",
+      bottom: 0,
+      left: this.state.scrollValue,
+      width: "100%",
+        fontFamily: '"Courier New", Courier, monospace'
+    };
+
     return (
-      <div
-        className="tape"
-        style={{
-          willChange: "transform",
-          position: "absolute",
-          left: 0,
-          bottom: 0,
-                color: 'black',
-          transform: `translate3d(${this.state.scrollValue}px, 0, 0)`
-        }}
-      >hello world</div>
+      <div>
+        <div style={tickerStyle} ref="clickerTape"></div>
+        <canvas
+          style={style}
+          ref="clickerCanvas"
+          onMouseDown={this.canvasClickHandler.bind(this)}
+          width={this.props.canvasWidth}
+          height={this.props.canvasHeight}
+        />
+      </div>
     );
   }
 }
