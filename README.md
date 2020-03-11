@@ -22,3 +22,8 @@ Note: Although the gif did not record mouse movements, I can assure you that the
 5. run `npm run electron`
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Contributors
+
+Michael Bennett
+Ryan Zacharias
